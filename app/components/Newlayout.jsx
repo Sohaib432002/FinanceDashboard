@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import Navbar from './components/Navbar'
-import Slider from './components/Slider'
-import { useTheme } from './useContext/useContext'
+import Navbar from './Navbar'
+import Slider from './Slider'
+import { useTheme } from '../useContext/useContext'
 
 const Newlayout = ({ children }) => {
   const [IsOpen, setIsopen] = useState(false)

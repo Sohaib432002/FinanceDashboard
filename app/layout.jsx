@@ -1,35 +1,35 @@
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
-import {ThemeProvider} from './useContext/useContext'
+import { ThemeProvider } from './useContext/useContext'
+import AppShell from './components/AppShell'
 
-import Newlayout from './components/Newlayout'
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const jakarta = Plus_Jakarta_Sans({
+  variable: '--font-jakarta',
   subsets: ['latin'],
 })
 
 export const metadata = {
-  title: 'Finance Dashboard',
-  description: 'A modern and responsive finance dashboard built with Next.js and Tailwind CSS.',
+  title: 'Wealthly | Portfolio & Finance Dashboard',
+  description: 'Track your investment portfolio, income and expenses in one place.',
 }
+
+export const viewport = {
+  themeColor: '#0d0724',
+}
+
+// Apply the saved theme before first paint to avoid a light/dark flash.
+const themeScript = `try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.add('light')}}catch(e){}`
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        precedence="default"
-      />
-      <body className="min-h-full flex flex-col">
-      <ThemeProvider>
-        <Newlayout>{children}</Newlayout>
-      </ThemeProvider>
+    <html lang="en" className={`${jakarta.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="min-h-full">
+        <ThemeProvider>
+          <AppShell>{children}</AppShell>
+        </ThemeProvider>
       </body>
     </html>
   )

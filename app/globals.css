@@ -1,26 +1,167 @@
 @import 'tailwindcss';
 
+/* Design tokens taken from the Wealthly reference: deep indigo surfaces, violet accent, mint gains. */
 :root {
-  --background: #ffffff;
-  --foreground: #383232;
+  --page: #0d0724;
+  --page-glow: rgba(124, 77, 255, 0.28);
+  --surface: #160e37;
+  --surface2: #1f1648;
+  --line: rgba(167, 139, 250, 0.16);
+  --ink: #f6f3ff;
+  --muted: #a99fd3;
+  --primary: #7c4dff;
+  --soft: #b9a5f2;
+  --gain: #2ee59d;
+  --gain-bg: rgba(46, 229, 157, 0.13);
+  --loss: #ff6b86;
+  --loss-bg: rgba(255, 107, 134, 0.13);
+  --shadow: 0 10px 40px rgba(5, 0, 25, 0.45);
+  color-scheme: dark;
+}
+
+:root.light {
+  --page: #f2eeff;
+  --page-glow: rgba(124, 77, 255, 0.14);
+  --surface: #ffffff;
+  --surface2: #efe9ff;
+  --line: rgba(76, 50, 160, 0.15);
+  --ink: #1d1450;
+  --muted: #665e95;
+  --primary: #6d3df5;
+  --soft: #6540dc;
+  --gain: #087a4c;
+  --gain-bg: rgba(12, 159, 100, 0.12);
+  --loss: #d42a4d;
+  --loss-bg: rgba(212, 42, 77, 0.1);
+  --shadow: 0 10px 30px rgba(76, 50, 160, 0.12);
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-soft: var(--soft);
+  --color-gain: var(--gain);
+  --color-loss: var(--loss);
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--page);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(900px 420px at 85% -80px, var(--page-glow), transparent 70%),
+    var(--page);
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 45%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--soft);
+  outline-offset: 2px;
+}
+
+/* shared surfaces */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.field {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  color: var(--ink);
+  font-size: 1rem; /* 16px: stops iOS zooming into inputs on focus */
+}
+.field::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23a99fd3' stroke-width='2'%3E%3Cpath d='m1 1 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.2rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s, transform 0.2s, opacity 0.2s;
+  cursor: pointer;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--primary) 45%, transparent);
+}
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.btn-ghost {
+  background: var(--surface2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--primary);
+}
+.btn-danger {
+  background: var(--loss-bg);
+  color: var(--loss);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface2), color-mix(in srgb, var(--surface2) 60%, var(--primary)), var(--surface2));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 0.6rem;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }

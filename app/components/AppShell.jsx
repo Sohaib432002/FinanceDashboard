@@ -111,7 +111,7 @@ export default function AppShell({ children }) {
           <Logo size={42} />
           <span>
             <span className="block text-xl font-extrabold leading-tight">Wealthly</span>
-            <span className="block text-[10px] font-semibold tracking-[0.22em] text-muted">INVEST · GROW · BELONG</span>
+            <span className="block whitespace-nowrap text-[9px] font-semibold tracking-[0.16em] text-muted">INVEST · GROW · BELONG</span>
           </span>
         </Link>
         <nav aria-label="Main" className="flex flex-1 flex-col gap-1.5">

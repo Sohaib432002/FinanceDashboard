@@ -75,7 +75,7 @@ function TokenPrompt() {
 
 export default function AppShell({ children }) {
   const pathname = usePathname()
-  const { mode, toggleTheme, role, toggleRole, storage } = useTheme()
+  const { mode, toggleTheme, role, toggleRole } = useTheme()
 
   const roleBtn = (
     <button
@@ -159,15 +159,7 @@ export default function AppShell({ children }) {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-6 lg:px-8 lg:pb-12">
-        {storage === 'temporary' && (
-          <p role="status" className="mb-5 rounded-xl border border-line bg-surface2 px-4 py-3 text-sm text-muted">
-            <span className="font-bold text-ink">Demo mode:</span> changes are stored temporarily and may reset. Connect a
-            database (see the README) to keep your data permanently.
-          </p>
-        )}
-        {children}
-      </main>
+      <main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-6 lg:px-8 lg:pb-12">{children}</main>
 
       {/* Bottom tab bar (mobile) */}
       <nav

@@ -30,7 +30,6 @@ export const ThemeProvider = ({ children }) => {
   const [token, setToken] = useState('')
   const [role, setRole] = useState('admin')
   const [askToken, setAskToken] = useState(false)
-  const [storage, setStorage] = useState('local')
 
   useEffect(() => {
     let cancelled = false
@@ -43,7 +42,6 @@ export const ThemeProvider = ({ children }) => {
         }).then((r) => r.json())
         if (cancelled) return
         setProtectedWrites(res.protected)
-        setStorage(res.storage || 'local')
         if (!res.protected) setRole('admin')
         else if (saved && res.valid) {
           setToken(saved)
@@ -92,13 +90,12 @@ export const ThemeProvider = ({ children }) => {
       role,
       canWrite: role === 'admin',
       token,
-      storage,
       toggleRole,
       enterAdmin,
       askToken,
       closeTokenPrompt: () => setAskToken(false),
     }),
-    [mode, toggleTheme, role, token, storage, toggleRole, enterAdmin, askToken]
+    [mode, toggleTheme, role, token, toggleRole, enterAdmin, askToken]
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
